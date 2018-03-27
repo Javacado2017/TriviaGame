@@ -19,8 +19,8 @@ function gameOutset() {
     $('button').click(function() {
         $('#mainContent').html('');
         timerInterval = gameTimer();
-        gameQuestions();
         gameSubmit();
+        gameQuestions();
     });
 
 };
@@ -51,41 +51,47 @@ function gameQuestions() {
     var questionsSet = questions.slice(0,10);
 
     //Suffles the array of object and pulls three wrong answer from array
-    var wrongAnswers = []
+
 
     function getWrongs(){
 
+        var wrongAnswers = []
+
         var options = shuffle(stateAbbr);
         
-        for (i=0; i < 3; i++){
+        for (var i = 0; i < 3; i++){
             wrongAnswers.push(options[i].abbreviation); 
         };
 
         return wrongAnswers
+  
     };
+   
 
     //Creates the array of objects for the questions and the answers
     var triviaQuestions = []
     
     function dataQuestions(){
         
-        for (i=0; i < numberQuestions; i++){
+        for (var i=0; i < numberQuestions; i++){
             triviaQuestions.push({
-                question: questions[i].name,
-                answer: questions[i].abbreviation,
-                options: .concat(questions[i].abbreviation)
+                question: questionsSet[i].name,
+                answer: questionsSet[i].abbreviation,
+                options: getWrongs().concat(questionsSet[i].abbreviation)
             });
-            console.log(triviaQuestions, numberQuestions);
         };
+    
     };
 
     dataQuestions();
-
 
 };
 
 
 
+
+function gameResults(){};
+gameResults();
 
 
 //Function for the countdown time
@@ -123,8 +129,6 @@ function gameTimer() {
     return interval;
     
 };
-
-
 
 
 
