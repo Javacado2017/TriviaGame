@@ -39,12 +39,16 @@ function gameSubmit(){
     });
 };
 
+//Sets the number of questions the game will have
+var numberQuestions = 10
+
+//Creates the array of objects for the questions and the answers
+var triviaQuestions = []
 
 //Function to pull data and create 10 questions into the trivia game
 function gameQuestions() {
 
-    //Sets the number of questions the game will have
-    var numberQuestions = 10
+
 
     //Shuffles the array of objects
     var questions = shuffle(stateAbbr); 
@@ -67,9 +71,6 @@ function gameQuestions() {
   
     };
    
-
-    //Creates the array of objects for the questions and the answers
-    var triviaQuestions = []
     
     function dataQuestions(){
         
@@ -81,7 +82,9 @@ function gameQuestions() {
             });
         };
     
+        return triviaQuestions;
     };
+   
 
     dataQuestions();
 
@@ -92,7 +95,7 @@ function gameQuestions() {
             var triviaOptions=''
             
             for (var a = 0; a < 4; a++) {
-                triviaOptions += '<input type="radio" name="' + i + '" value="' + triviaQuestions[i].options[a] + '">' +  triviaQuestions[i].options[a] + '<br>'
+                triviaOptions += '<input type="radio" name="' + i + '" value="' + triviaQuestions[i].options[a] + '">' +  triviaQuestions[i].options[a]
             };
 
             $('#mainContent').append(
@@ -107,32 +110,28 @@ function gameQuestions() {
 };
 
 
-var correctAnswers = 0
-
 function gameResults(){
 
+    var correctAnswers = 0
+    var incorrectAnswers = 0
+    var resultsCompare = []
+
     for (var i=0; i < numberQuestions; i++){
-    
-    var selectedAnswer = $('input[name=' + i + ']:checked').val();
-
-    if (selectedAnswer === triviaQuestions[i].answer){
-        correctAnswers++
         
+        var selectedAnswer = $('input[name=' + i + ']:checked').val();
+        resultsCompare.push(selectedAnswer)
+         
+        if (resultsCompare[i] === triviaQuestions[i].answer) {
+            correctAnswers++  
+        } else if (resultsCompare[i] !== triviaQuestions[i].answer) {
+            incorrectAnswers++
+        }; 
     };
     
-
-
-    };
-
-
+    $('#mainContent').html('You got ' + correctAnswers + ' answers correct! And ' + incorrectAnswers + ' answers incorrect!');
+   
 };
 
-
-
-
-
-
-gameResults();
 
 
 //Function for the countdown time
