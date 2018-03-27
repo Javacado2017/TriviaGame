@@ -77,7 +77,7 @@ function gameQuestions() {
             triviaQuestions.push({
                 question: questionsSet[i].name,
                 answer: questionsSet[i].abbreviation,
-                options: getWrongs().concat(questionsSet[i].abbreviation)
+                options: shuffle(getWrongs().concat(questionsSet[i].abbreviation))
             });
         };
     
@@ -85,12 +85,53 @@ function gameQuestions() {
 
     dataQuestions();
 
+    function displayQuestions(){
+
+        for (var i=0; i < numberQuestions; i++){
+
+            var triviaOptions=''
+            
+            for (var a = 0; a < 4; a++) {
+                triviaOptions += '<input type="radio" name="' + i + '" value="' + triviaQuestions[i].options[a] + '">' +  triviaQuestions[i].options[a] + '<br>'
+            };
+
+            $('#mainContent').append(
+                '<p>' + (i+1) + ' ' + triviaQuestions[i].question + ': </p>' + triviaOptions               
+            );           
+        };
+    };
+
+    displayQuestions();
+
+
+};
+
+
+var correctAnswers = 0
+
+function gameResults(){
+
+    for (var i=0; i < numberQuestions; i++){
+    
+    var selectedAnswer = $('input[name=' + i + ']:checked').val();
+
+    if (selectedAnswer === triviaQuestions[i].answer){
+        correctAnswers++
+        
+    };
+    
+
+
+    };
+
+
 };
 
 
 
 
-function gameResults(){};
+
+
 gameResults();
 
 
@@ -103,7 +144,7 @@ function gameTimer() {
     $('#gameStatus').html('');
 
     //Displays the timer in the gameStatus section
-    var timer = 5
+    var timer = 30
     $('#gameStatus').html('You have ' + timer + ' seconds remaining.');
 
     //Starts the countdown
@@ -129,8 +170,6 @@ function gameTimer() {
     return interval;
     
 };
-
-
 
 });
 
